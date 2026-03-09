@@ -1,0 +1,475 @@
+/**
+* Created by Dmitri Rudnitsky
+*/
+
+/* ==========================================================================
+   Imports
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap");
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+/* ==========================================================================
+   Reset & Global Styles
+   ========================================================================== */
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+:root {
+	/* Site Dimensions */
+	--max-site-width: 1500px;
+	--min-site-gutters: 5vw;
+	--max-site-gutters: max(calc((100vw - var(--max-site-width)) / 2), var(--min-site-gutters));
+
+	/* Fonts */
+	--main-font: 'Open Sans', sans-serif;
+	--main-font-size: 16px;
+	--main-font-color: #333333;
+
+	/* Colors */
+	--main-color: #0035b9;
+}
+
+html {
+	font-family: var(--main-font);
+	font-size: var(--main-font-size);
+	color: var(--main-font-color);
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background-color: #f5f5f5;
+}
+
+a {
+	text-decoration: none;
+	color: var(--main-font-color);
+}
+
+.material-icons {
+	font-size: inherit;
+}
+
+ul {
+	padding-left: 2rem;
+}
+
+/* Apply gutters on all site sections */
+header,
+main,
+footer {
+	padding-right: var(--max-site-gutters);
+	padding-left: var(--max-site-gutters);
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	height: 50vh;
+	clip-path: polygon(0 0, 100% 0, 100% calc(100% - 50px), 0 100%);
+}
+
+.top-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 1rem;
+}
+
+.combination-mark-container {
+	display: flex;
+	align-items: center;
+}
+
+.logo-image-container {
+	display: flex;
+	align-items: center;
+	width: 75px;
+	height: 75px;
+}
+
+.logo-image-container img {
+	width: 100%;
+	height: 100%;
+}
+
+.logo-text-container {
+	padding-left: 1rem;
+}
+
+.logo-title {
+	font-size: clamp(1.25rem, 1.75vw, 3rem);
+	font-weight: 500;
+}
+
+.logo-subtitle {
+	font-size: clamp(1rem, 0.75vw, 2.75rem);
+}
+
+.nav-links {
+	display: flex;
+	column-gap: 2rem;
+	font-size: 1.25rem;
+}
+
+.nav-links a {
+	border-bottom: 2px solid transparent;
+	transition: border-bottom-color 0.3s ease;
+}
+
+.nav-links a:hover {
+	border-bottom-color: var(--main-color);
+}
+
+/* Hide the collapsable menue on wide displays. See mobile styles below. */
+#menu-toggle,
+#menu-ico {
+	display: none;
+}
+
+.headline-container {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.headline-title {
+	font-size: clamp(3rem, 5vw, 5rem);
+	font-weight: 600;
+}
+
+.headline-subtitle {
+	font-size: 1.5rem;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+.section-title {
+	font-size: 2rem;
+	color: var(--main-font-color);
+	font-weight: 500;
+}
+
+.section-divider {
+	width: 2.5rem;
+	height: 0.45rem;
+	background-color: var(--main-color);
+	border: none;
+	margin: 1rem 0;
+}
+
+.section-content-container {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+}
+
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	background-color: #636363;
+	color: #dcdcdc;
+	font-size: 1rem;
+}
+
+footer a {
+	display: flex;
+	align-items: center;
+}
+
+/* --[ Mobile Styles ]-- */
+
+@media screen and (max-width: 1000px) {
+
+	/* Required for the nav menu (absolute position) to treat this as the containing block */
+	.top-nav {
+		position: relative;
+	}
+
+	/* Show and style the toggle menu icon */
+	#menu-ico {
+		display: block;
+		font-size: 2.5rem;
+		padding: 0 1rem;
+		cursor: pointer;
+	}
+
+	/* Mobile-style navigation links */
+	.nav-links {
+		position: absolute;
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		align-items: center;
+		background-color: var(--main-color);
+		top: 1rem;
+		border-radius: 15px;
+	}
+
+	/* If the toggle menu is not pressed inject the 'burger' icon */
+	#menu-toggle:not(:checked) ~ #menu-ico span::before {
+		content: 'menu';
+	}
+
+	#menu-toggle:not(:checked) ~ #menu-ico {
+		color: var(--main-color);
+	}
+
+	/* If the toggle menu is not pressed hide the navigation links */
+	#menu-toggle:not(:checked) ~ .nav-links {
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	/* If the toggle menu is pressed inject the 'x' icon */
+	#menu-toggle:checked ~ #menu-ico span::before {
+		content: 'close';
+	}
+
+	#menu-toggle:checked ~ #menu-ico {
+		color: #fff;
+		z-index: 999;	/* insures the icon is above the nav menu layer */
+	}
+
+	/* If the toggle menu is pressed display the navigation links */
+	#menu-toggle:checked ~ .nav-links {
+		visibility: visible;
+		opacity: 1;
+		transition: visibility 0s linear 0s, opacity 0.3s;
+	}
+
+	.nav-links a {
+		padding: 1.75rem 0;
+		color: #fff;
+		transition: none;
+		border: 0;
+	}
+
+	.nav-links a:hover {
+		border-bottom-color: none;
+	}
+}
+
+/* ==========================================================================
+   Home Page
+   ========================================================================== */
+
+#home-page header {
+	background-image:
+		linear-gradient(to bottom, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0)),
+		url("../assets/hero-home.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+#home-page .headline-container {
+	padding-left: 50%;
+	padding-top: 50px;
+}
+
+#home-page #services .cards-container {
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 50px;
+	row-gap: 50px;
+	justify-content: center;
+	width: 100%;
+}
+
+#home-page #services .card-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: center;
+	width: 300px;
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 15px;
+	border-top: 1rem solid transparent; /* Color is set for each card individually */
+	transition: all .2s ease-in-out;
+	box-shadow:
+		0.3px 0.5px 0.7px hsl(0deg 0% 63% / 0.36),
+		0.8px 1.6px 2px -0.8px hsl(0deg 0% 63% / 0.36),
+		2.1px 4.1px 5.2px -1.7px hsl(0deg 0% 63% / 0.36),
+		5px 10px 12.6px -2.5px hsl(0deg 0% 63% / 0.36);
+}
+
+#home-page #services .card-wrapper:hover {
+	transform: scale(1.1);
+}
+
+#home-page #services .card-wrapper img {
+	width: 5rem;
+	height: 5rem;
+}
+
+
+#home-page #services .card-title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 0.75rem 0;
+	text-align: center;
+	color: hsl(0 0% 40%);
+}
+
+#home-page #services .card-text {
+	text-align: center;
+}
+
+#home-page #services .card-1 {
+	border-top-color: #fb8500;
+}
+
+#home-page #services .card-2 {
+	border-top-color: #6a994e;
+}
+
+#home-page #services .card-3 {
+	border-top-color: #219ebc;
+}
+
+#home-page #services .card-icon {
+	font-size: 4rem;
+	color: hsl(0 0% 60%);
+}
+
+#home-page #about {
+	background: linear-gradient(0deg, rgba(0, 53, 185, 1) 0%, rgba(112, 153, 255, 1) 100%);
+	clip-path: polygon(0 0, 100% 50px, 100% calc(100% - 50px), 0 100%);
+	padding-bottom: 4rem;
+	
+	/* Force the about section to stretch the entire page width using negative margins */
+	margin-right: calc(-1 * var(--max-site-gutters));  
+	margin-left: calc(-1 * var(--max-site-gutters));
+}
+
+#home-page #about .section-title {
+	color: #fff;
+}
+
+#home-page #about .section-divider {
+	background-color: #fff;
+}
+
+#home-page #about .section-content {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 50px;
+}
+
+#home-page #about .headshot-container {
+	width: 200px;
+	height: 200px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+#home-page #about .headshot-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#home-page #about .about-text-conatiner {
+	width: 50%;
+}
+
+#home-page #about .about-text-conatiner p:not(:last-child),
+#home-page #about .about-text-conatiner ul {
+	margin-bottom: 1rem;
+}
+
+#home-page #about .about-text-conatiner p,
+#home-page #about .about-text-conatiner li {
+	color: #fff;
+}
+
+#home-page #contact .section-content {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.5rem;
+	justify-content: center;
+}
+
+#home-page #contact .contact-line {
+	display: flex;
+	align-items: center;
+}
+
+#home-page #contact .contact-line p {
+	display: inline-block;
+	padding-left: 0.5rem;
+}
+
+#home-page #contact .contact-line .material-icons {
+	color: var(--main-color);
+	font-size: 1.25rem;
+}
+
+/* ==========================================================================
+   Services Page
+   ========================================================================== */
+
+#services-page header {
+	background-image:
+		linear-gradient(to bottom, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0)),
+		linear-gradient(to left, rgba(255, 255, 255, 1) 10%, rgba(255, 255, 255, 0)),
+		url("../assets/hero-services.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+#services-page .headline-container {
+	padding-left: 50%;
+	padding-top: 50px;
+}
+
+#services-page section .section-content-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3rem;
+	padding-right: 10%;
+	padding-left: 10%;
+	justify-content: center;
+}
+
+#services-page section .service-image-container {
+	width: 250px;
+	height: 250px;
+	overflow: hidden;
+	border-radius: 50%;
+	align-self: center;
+}
+
+#services-page section .service-description p:not(:last-child),
+#services-page section .service-description ul {
+	margin-bottom: 1rem;
+}
+
+.service-image-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.service-description {
+	width: 500px;
+}
